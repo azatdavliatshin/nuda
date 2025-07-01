@@ -1,4 +1,3 @@
-mod scaffold;
 use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
