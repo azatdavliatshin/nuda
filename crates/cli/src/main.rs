@@ -10,7 +10,10 @@ struct Cli {
 #[derive(Subcommand)]
 enum Commands {
     #[command(about = "Scaffold a new Nuda project")]
-    New { name: String },
+    New {
+        name: String,
+    },
+    Dev {},
 }
 
 fn main() {
@@ -23,6 +26,13 @@ fn main() {
             log::info!("Creating new project: {}", name);
             if let Err(e) = scaffold::scaffold_project(name) {
                 log::error!("❌ Failed to create project: {:#}", e);
+                std::process::exit(1);
+            }
+        }
+        Commands::Dev {} => {
+            log::info!("Starting development server");
+            if let Err(e) = dev::run_dev_server() {
+                log::error!("❌ Failed to start development server: {:#}", e);
                 std::process::exit(1);
             }
         }
