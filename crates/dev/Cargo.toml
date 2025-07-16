@@ -11,3 +11,4 @@ http-body-util = "0.1"
 hyper-util = { version = "0.1", features = ["full"] }
 shared = { version = "0.1.0", path = "../shared" }
 log = "0.4.27"
+mime_guess = "2.0.5"
