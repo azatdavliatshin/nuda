@@ -8,9 +8,20 @@ mod template;
 pub fn scaffold_project(name: &str) -> Result<()> {
     let template_root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../templates/default");
     let project_root = PathBuf::from(name);
+
+    template::copy_dir_recursive(
+        &template_root.join("pages"),
+        &project_root.join("pages"),
+        name,
+    )?;
+
+    template::copy_dir_recursive(
+        &template_root.join("public"),
+        &project_root.join("public"),
+        name,
+    )?;
+
     let copy_plan = vec![
-        ("pages/index.html", "pages/index.html"),
-        ("public/favicon.ico", "public/favicon.ico"),
         ("nuda.config.json", "nuda.config.json"),
         ("gitignore", ".gitignore"),
         ("README.md", "README.md"),

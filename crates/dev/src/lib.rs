@@ -7,7 +7,7 @@ use tokio::net::TcpListener;
 
 mod handler;
 mod map_uri_to_file;
-mod port;
+pub mod port;
 
 #[tokio::main]
 pub async fn run_dev_server() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {

@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use log::{debug, info};
 use std::fs;
 use std::path::Path;
 
@@ -14,5 +15,23 @@ pub fn copy_template_file(from: &Path, to: &Path, name: &str) -> Result<()> {
 
     fs::write(to, contents).with_context(|| format!("Failed to write file: {}", to.display()))?;
 
+    Ok(())
+}
+
+pub fn copy_dir_recursive(from: &Path, to: &Path, project_name: &str) -> Result<()> {
+    for entry in walkdir::WalkDir::new(from) {
+        let entry = entry?;
+        let path = entry.path();
+
+        if path.is_file() {
+            let rel_path = path.strip_prefix(from)?;
+            let target_path = to.join(rel_path);
+
+            debug!("Copying: {} → {}", path.display(), target_path.display());
+
+            copy_template_file(path, &target_path, project_name)?;
+            info!("✅ Created {}", target_path.display());
+        }
+    }
     Ok(())
 }
